@@ -1,0 +1,143 @@
+﻿@model TestApplication.Models.ShapeModel
+
+@{
+    ViewBag.Title = "Area";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Calculate Area</h2>
+
+<style>
+    .required-field::after {
+        content: "*";
+        color: red;
+    }
+</style>
+@using (Html.BeginForm("Area", "Home", FormMethod.Post, null))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal col-md-12">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label col-md-3 required-field" for="Shape" id="lblShape">Shape</label>
+                <div class="col-md-9">
+                    @Html.DropDownList("Shape", ViewData["ShapesDetail"] as List<SelectListItem>, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Shape, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-3 required-field" for="Dimension1" id="lblDimension1"></label>
+                <div class="col-md-9">
+                    @Html.TextBoxFor(model => model.Dimension1, new { @class = "form-control Number" })
+                    @Html.ValidationMessageFor(model => model.Dimension1, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group" id="dd2" style="display:none">
+                <label class="control-label col-md-3 required-field" for="Dimension2" id="lblDimension2"></label>
+                <div class="col-md-9">
+                    @Html.TextBoxFor(model => model.Dimension2, new { @class = "form-control Number" })
+                    @Html.ValidationMessageFor(model => model.Dimension2, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group" id="dd3" style="display:none">
+                <label class="control-label col-md-3 required-field" for="Dimension3" id="lblDimension3"></label>
+                <div class="col-md-9">
+                    @Html.TextBoxFor(model => model.Dimension3, new { @class = "form-control Number" })
+                    @Html.ValidationMessageFor(model => model.Dimension3, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            @if (Model != null && Model.Area != null)
+            {
+                <div class="form-group">
+                    <label class="col-md-offset-3 col-md-10" name="Area" id="Area">@Model.Area</label>
+                </div>
+            }
+            <div class="form-group">
+                <div class="col-md-offset-3 col-md-9">
+                    <input type="submit" value="Calculate" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <img src="~/Images/Formula.jpg" style="width:100%" />
+        </div>
+        <div class="clearfix">
+        </div>
+        <hr />
+    </div>
+
+}
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function () {
+        showhide();
+        $('#Shape').change(function () {
+            showhide();
+        });
+
+        $('.Number').keypress(function (event) {
+            var keycode = event.which;
+            if (!(event.shiftKey == false && (keycode == 8 || keycode == 37 || keycode == 39 || (keycode >= 48 && keycode <= 57)))) {
+                event.preventDefault();
+            }
+        });
+    });
+
+    function showhide() {
+        if ($("#Shape").val() == 1) { //square
+            $("#lblDimension1").text("Side");
+            $("#dd2").hide();
+            $("#dd3").hide();
+        }
+        else if ($("#Shape").val() == 2) { //rectangle
+            $("#lblDimension1").text("Length");
+            $("#lblDimension2").text("Width");
+            $("#dd2").show();
+            $("#dd3").hide();
+        }
+        else if ($("#Shape").val() == 3) { //triangle
+            $("#lblDimension1").text("Base");
+            $("#lblDimension2").text("Hight");
+            $("#dd2").show();
+            $("#dd3").hide();
+        }
+        else if ($("#Shape").val() == 4) { // circle
+            $("#lblDimension1").text("Radius");
+            $("#dd2").hide();
+            $("#dd3").hide();
+        }
+        else if ($("#Shape").val() == 5) { // Sector
+            $("#lblDimension1").text("Radius");
+            $("#lblDimension2").text("Angle");
+            $("#dd2").show();
+            $("#dd3").hide();
+        }
+        else if ($("#Shape").val() == 6) { // Eclips
+            $("#lblDimension1").text("Semi-Axis a");
+            $("#lblDimension2").text("Semi-Axis b");
+            $("#dd2").show();
+            $("#dd3").hide();
+        }
+        else if ($("#Shape").val() == 7) { // Trapezoid
+            $("#lblDimension1").text("Base (a)");
+            $("#lblDimension2").text("Base (b)");
+            $("#lblDimension3").text("Height");
+            $("#dd2").show();
+            $("#dd3").show();
+        }
+        else if ($("#Shape").val() == 8) { // Parallelogram
+            $("#lblDimension1").text("Base");
+            $("#lblDimension2").text("Height");
+            $("#dd2").show();
+            $("#dd3").hide();
+        }
+    }
+
+</script>
