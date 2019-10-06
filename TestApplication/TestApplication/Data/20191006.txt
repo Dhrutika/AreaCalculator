@@ -1,6 +1,7 @@
 =========================================
-Shape: Rectangle
-Calculated Area: Area of Rectangle is 12.
+Date Time: 6/10/2019 6:56:16 PM
+Shape: Triangle
+Area of Triangle is 6.
 =========================================
 =========================================
 Date Time: 6/10/2019 6:56:16 PM
